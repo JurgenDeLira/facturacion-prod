@@ -1,0 +1,59 @@
+package com.jorge.facturacion_prod.controller;
+
+import com.jorge.facturacion_prod.dto.ProductoDTO;
+import com.jorge.facturacion_prod.service.ProductoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/productos")
+public class ProductController {
+    private final ProductoService productoService;
+
+    public ProductController(ProductoService productoService) {
+        this.productoService = productoService;
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductoDTO> save (@RequestBody ProductoDTO productoDto){
+        return new ResponseEntity<>(productoService.save(productoDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProductoDTO>> findAll(){
+        List<ProductoDTO> productoDTOS = productoService.findAll();
+        if (productoDTOS.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(productoDTOS);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductoDTO> findById(@PathVariable Integer id){
+        return productoService.findById(id).map(
+                productoDTO -> {
+                    return ResponseEntity.ok(productoDTO);
+                }
+        ).orElseGet(()->ResponseEntity.notFound().build()
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id){
+        if (productoService.deleteById(id))
+            return ResponseEntity.notFound().build();
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<ProductoDTO> update(@RequestBody ProductoDTO productoDTO){
+        return productoService.update(productoDTO).map(
+                ResponseEntity::ok
+        ).orElseGet(
+                () -> ResponseEntity.notFound().build()
+        );
+    }
+}

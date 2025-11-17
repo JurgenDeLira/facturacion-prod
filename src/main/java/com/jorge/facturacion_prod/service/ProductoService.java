@@ -1,6 +1,6 @@
 package com.jorge.facturacion_prod.service;
 
-import com.jorge.facturacion_prod.dto.ProductoDto;
+import com.jorge.facturacion_prod.dto.ProductoDTO;
 import com.jorge.facturacion_prod.model.Producto;
 import com.jorge.facturacion_prod.repository.ProductoRepository;
 import org.modelmapper.ModelMapper;
@@ -23,32 +23,32 @@ public class ProductoService {
     }
 
     //save
-    public ProductoDto save (ProductoDto productoDto){
+    public ProductoDTO save (ProductoDTO productoDto){
         Producto producto = modelMapper.map(productoDto, Producto.class); //transformamos DTO a producto
-        return modelMapper.map(productoRepository.save(producto), ProductoDto.class)
+        return modelMapper.map(productoRepository.save(producto), ProductoDTO.class);
 
     }
 
     //find all
-    public List<ProductoDto> findAll(){
+    public List<ProductoDTO> findAll(){
         return productoRepository.findAll().stream().map(
                 producto -> {
-                    return modelMapper.map(producto, ProductoDto.class);
+                    return modelMapper.map(producto, ProductoDTO.class);
                 }
         ).collect(Collectors.toList());
     }
 
     //find by id
-    public Optional<ProductoDto> findById(Integer id){
+    public Optional<ProductoDTO> findById(Integer id){
         return productoRepository.findById(id).map(
                 producto -> {
-                    return modelMapper.map(producto, ProductoDto.class);
+                    return modelMapper.map(producto, ProductoDTO.class);
                 }
         );
     }
 
     //deleteById
-    public boolean deleteBy (Integer id){
+    public boolean deleteById(Integer id){
         return productoRepository.findById(id).map(
                 producto -> {
                     productoRepository.delete(producto);
@@ -58,11 +58,11 @@ public class ProductoService {
     }
 
     //update
-    public Optional<ProductoDto> update(ProductoDto productoDto){
+    public Optional<ProductoDTO> update(ProductoDTO productoDto){
         Producto producto = modelMapper.map(productoDto, Producto.class);
         return productoRepository.findById(producto.getId()).map(
                 productoDB -> {
-                    return modelMapper.map(productoRepository.save(producto), ProductoDto.class);
+                    return modelMapper.map(productoRepository.save(producto), ProductoDTO.class);
                 }
         );
 
