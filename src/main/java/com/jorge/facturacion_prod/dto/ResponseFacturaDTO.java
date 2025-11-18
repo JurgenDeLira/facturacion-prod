@@ -1,0 +1,17 @@
+package com.jorge.facturacion_prod.dto;
+
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Set;
+
+@Data
+public class ResponseFacturaDTO {
+    private Integer id;
+    private String numeroFactura;
+    private BigDecimal subTotal;
+    private BigDecimal total;
+    private LocalDateTime fechaCreado; //aqui no es necesaria la anotación
+    private Set<ResponseDetalleFacturaDTO> detalleFacturas;
+}
