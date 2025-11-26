@@ -2,6 +2,7 @@ package com.jorge.facturacion_prod.controller;
 
 import com.jorge.facturacion_prod.dto.ProductoDTO;
 import com.jorge.facturacion_prod.service.ProductoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/productos")
+@Slf4j
 public class ProductController {
     private final ProductoService productoService;
 
@@ -18,8 +20,11 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductoDTO> save (@RequestBody ProductoDTO productoDto){
-        return new ResponseEntity<>(productoService.save(productoDto), HttpStatus.CREATED);
+    public ResponseEntity<ProductoDTO> save (@RequestBody ProductoDTO productoDTO){
+
+        System.out.println(productoDTO.getNombre());
+        log.info("Información productoDTO {}", productoDTO);
+        return new ResponseEntity<>(productoService.save(productoDTO), HttpStatus.CREATED);
     }
 
     @GetMapping
